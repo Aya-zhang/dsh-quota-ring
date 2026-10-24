@@ -1,0 +1,40 @@
+{
+  "name": "dsh-quota-ring",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "DSH 侧边栏余额环：余额 + 峰谷计价圆环 + 今日花费 + 悬停明细",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aya-zhang/dsh-quota-ring.git"
+  },
+  "homepage": "https://github.com/Aya-zhang/dsh-quota-ring#readme",
+  "bugs": {
+    "url": "https://github.com/Aya-zhang/dsh-quota-ring/issues"
+  },
+  "author": "Aya",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "balance",
+    "quota",
+    "sidebar"
+  ],
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

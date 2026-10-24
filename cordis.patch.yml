@@ -1,0 +1,4 @@
+# 组合层：把本插件挂进 profile
+- insert:
+    - id: quota-ring
+      name: dsh-quota-ring
