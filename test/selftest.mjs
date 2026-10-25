@@ -11,7 +11,7 @@ import { dirname, join } from 'node:path'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const { __test } = await import(pathToFileURL(join(here, '..', 'lib', 'index.js')).href)
-const { sameOrigin, isPeakTime, costOf, createSnapshotRunner } = __test
+const { sameOrigin, isPeakTime, costOf, createSnapshotRunner, normalizeLowBalance } = __test
 
 let pass = 0
 let fail = 0
@@ -71,7 +71,16 @@ const usage = { inputTokens: 1_000_000, outputTokens: 1_000_000, cacheReadTokens
 near('闲时 1M+1M+1M = 1 + 4 + 0.02', costOf('deepseek-v4-flash', BJ('2026-10-26T13:00:00'), usage), 5.02)
 near('高峰 1M+1M+1M = 2 + 8 + 0.04', costOf('deepseek-v4-flash', BJ('2026-10-26T10:00:00'), usage), 10.04)
 
-console.log('\n[4] 快照调度（并发行为）')
+console.log('\n[4] 低余额阈值配置 normalizeLowBalance()')
+ok('默认无配置 → 3', normalizeLowBalance(undefined), 3)
+ok('配置 5 → 5', normalizeLowBalance(5), 5)
+ok('配置字符串 "8" → 8', normalizeLowBalance('8'), 8)
+ok('配置 0 合法 → 0', normalizeLowBalance(0), 0)
+ok('配置负数回落到 3', normalizeLowBalance(-1), 3)
+ok('配置非数字回落到 3', normalizeLowBalance('abc'), 3)
+ok('配置 null 回落到 3', normalizeLowBalance(null), 3)
+
+console.log('\n[5] 快照调度（并发行为）')
 {
   const calls = { n: 0 }
   const makeBuild = (delay, tag) => () => {
