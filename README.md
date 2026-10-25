@@ -6,13 +6,22 @@
 
 *余额环与账户名在同一行；`余`是平台返回的余额，`今`是根据本机会话日志估算的花费。*
 
-> 适用于 **macOS**。安装需要 Git；插件使用 DSH 自带的 Node 运行，无需额外安装 Node 或 npm 依赖。
+> 适用于 **macOS**。安装需要 Git 和 DSH；插件使用 DSH 自带的 Node 运行，无需额外安装 Node 或 npm 依赖。已在 DSH `0.2.1-rc.3` 验证。
 >
 > **“今”是估算值，不是 DeepSeek 官方账单。** 它与账户余额来源不同，数值不会严格同步。
 
 ## 安装
 
-以下以 `desktop` profile 为例。如果你使用其他 profile，请把命令和文件路径中的 `desktop` 换成实际名称。
+在终端运行（以下以 `desktop` profile 为例）：
+
+```bash
+"/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh" plugin --profile desktop add github:Aya-zhang/dsh-quota-ring#v0.1.0
+```
+
+若使用其他 profile，把 `desktop` 换成实际名称。安装命令会把插件加入对应 profile；完成后重启 DSH。插件会读取当前 DSH 已保存的 DeepSeek 登录信息，无需在插件中填写密钥。
+
+<details>
+<summary>手动安装（适用于需要修改插件源码的用户）</summary>
 
 1. 克隆插件：
 
@@ -35,7 +44,9 @@
          name: dsh-quota-ring
    ```
 
-4. 重启 DSH。插件通过 profile 的补丁层加载，无需修改 `package.json`。
+4. 重启 DSH。手动安装通过 profile 的补丁层加载。
+
+</details>
 
 ## 怎么看
 
