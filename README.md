@@ -2,6 +2,10 @@
 
 在 DSH 侧边栏左下角显示 **余额**、**今日花费** 和 **峰谷计价圆环**。
 
+> ⚠️ 仅支持 macOS（重启功能依赖 `launchctl` 与 `/Applications` 路径）。
+>
+> 无需安装 Node、无需 `npm install` —— 插件跑在 DSH 里，而 DSH 是 Electron 应用，自带 Node 运行时。
+
 ![截图](docs/screenshot.png)
 
 > 截图放 `docs/screenshot.png`；没有就删掉上面这行。
@@ -83,6 +87,26 @@ ln -s ~/.dsh/plugins/dsh-quota-ring ~/.dsh/profiles/desktop/node_modules/dsh-quo
 | 徽章垂直位置 | 64 | `bottom:4px`（调大＝上移） |
 
 改完点一下圆环重启，就能看到效果。
+
+## 测试
+
+仓库自带纯函数自测，不启动 DSH、不联网：
+
+```bash
+# 用 DSH 自带的 Node（无需单独安装 Node）
+ELECTRON_RUN_AS_NODE=1 "/Applications/DeepSeek Harness.app/Contents/MacOS/DeepSeek Harness" test/selftest.mjs
+
+# 或者本机已装 Node
+node test/selftest.mjs
+```
+
+覆盖：
+
+| 分组 | 内容 |
+|---|---|
+| 来源校验 | 伪造 Host / 恶意 Origin / cross-site / 端口不一致 / 无 Host 均须拒绝；同源与无 Origin 须放行 |
+| 峰谷判断 | 09:00 起始边界、12:00 结束边界、周末全天闲时 |
+| 费用计算 | 闲时与高峰的单价翻倍关系 |
 
 ## 许可
 
